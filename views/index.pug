@@ -6,15 +6,75 @@ html
 		meta(http-equiv='X-UA-Compatible', content='IE=edge')
 		meta(name='viewport', content='width=device-width, initial-scale=1')
 		link(rel='stylesheet', href='/public/styles.css')
+		link(rel="preconnect" href="https://fonts.gstatic.com")
+		link(href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500&display=swap" rel="stylesheet")
+		script(src="https://kit.fontawesome.com/d50923ea55.js" crossorigin="anonymous")
 	body
-		h1 Welcome
-		h2 Registration Form
-		form(action='/register', method='post').center
-			div
-				label Username:
-				input(type='text', name='username')
-			div
-				label Password:
-				input(type='password', name='password')
-			div
-				input(type='submit', value='Register')
+		block content
+			script.
+				var showLogin = function() {
+					if (document.querySelector("div.showLogin").style.display == 'flex') {
+						document.querySelector("div.showLogin").style.display = 'none'
+						document.querySelector("div.showRegister").style.display = 'none'
+					} else {
+						document.querySelector("div.showLogin").style.display = 'flex'
+						document.querySelector("div.showRegister").style.display = 'none'
+					}
+				}
+				var closeLogin = function() {
+					document.querySelector("div.showLogin").style.display = 'none'
+				}
+				var showRegister = function() {
+					if (document.querySelector("div.showRegister").style.display == 'flex') {
+						document.querySelector("div.showRegister").style.display = 'none'
+						document.querySelector("div.showLogin").style.display = 'none'
+					} else {
+						document.querySelector("div.showRegister").style.display = 'flex'
+						document.querySelector("div.showLogin").style.display = 'none'
+					}
+				}
+				var closeRegister = function() {
+					document.querySelector("div.showRegister").style.display = 'none';
+				}
+
+		nav#homenav-container
+			h1 Chat App
+			div#nav-buttons
+				button(onclick='showRegister()') Register
+				button(onclick='showLogin()') Sign In
+
+		div.showLogin
+			div.form-header
+				h3 Sign In
+				i(class='fas fa-times' onclick='closeLogin()').close-form
+			form(action='/login', method='post').form-container
+				div.form-item
+					label Username: 
+					input(type='text', name='username', required)
+				div.form-item
+					label Password: 
+					input(type='password', name='password', required)
+				div.form-item
+					input(type='submit', value='Log in').button
+
+		div.showRegister
+			div.form-header
+				h3 Register
+				i(class='fas fa-times' onclick='closeRegister()').close-form
+			form(action='/register', method='post').form-container
+				div.form-item
+					label Username:
+					input(type='text', name='username', required)
+				div.form-item
+					label Password:
+					input(type='password', name='password', required)
+				div.form-item
+					input(type='submit', value='Register').button
+
+		div#brandingContainer
+			div#brandingBg
+				video(autoplay, loop, muted, src="../public/videos/video.mp4")#brandingVideo
+			div#brandingContent
+				h3#brandingH3 Chat App
+				p#brandingP A full-stack application, with real-time event based communication via Socket.io 
+				button(onclick='showRegister()')#brandingBtn Register now

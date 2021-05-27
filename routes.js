@@ -1,6 +1,4 @@
-const express = require('express');
 const passport = require('passport');
-const LocalStrategy = require('passport-local');
 const bcrypt = require('bcrypt');
 
 module.exports = (app, myDatabase) => {
@@ -9,6 +7,14 @@ module.exports = (app, myDatabase) => {
 	app.route('/').get((req, res) => {
 		res.render(process.cwd() + '/views/index.pug')
 	});
+
+	// Function for confirming if user is authenticated
+	const ensureAuthenticated = (req, res, next) => {
+		if (req.isAuthenticated()) {
+			return next();
+		} 
+		res.redirect('/'); // if not, redirect back home
+	}
 
 	// Handling POST request from registration form
 	app.route('/register').post((req, res, next) => {
@@ -35,6 +41,16 @@ module.exports = (app, myDatabase) => {
 		  })
 		}, 
 		  passport.authenticate('local', { failureRedirect: '/' }), function(req, res) {
-		  res.redirect('/chat') // If successful register, go to chat
+		  res.redirect('/chat') // If successful register, redirect to chatroom
+	})
+
+	// Handling POST request from local login form
+	app.route('/login').post(passport.authenticate('local', { failureRedirect: '/' }), (req, res, next) => {
+		res.redirect('/chat') // If authenticated, redirect to chatroom
+	})
+
+	// Rendering the chatroom page
+	app.route('/chat').get(ensureAuthenticated, (req, res) => {
+		res.render(process.cwd() + '/views/chat.pug')
 	})
 }
