@@ -56,7 +56,9 @@ html
 					input(type='password', name='password', required)
 				div.form-item
 					input(type='submit', value='Log in').button
-			a(href='/auth/github').button Login with Github
+			div.button.github-button
+				i(class='fab fa-github')
+				a(href='/auth/github').github  Sign in with Github
 
 		div.showRegister
 			div.form-header
@@ -71,6 +73,9 @@ html
 					input(type='password', name='password', required)
 				div.form-item
 					input(type='submit', value='Register').button
+			div.button.github-button
+				i(class='fab fa-github')
+				a(href='/auth/github').github  Sign in with Github
 
 		div#brandingContainer
 			div#brandingBg

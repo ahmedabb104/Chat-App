@@ -124,6 +124,15 @@ a {
 	cursor: pointer;
 }
 
+.github-button {
+	background: #1c2128;
+	color: whitesmoke;
+}
+
+a.github {
+	color: whitesmoke;
+}
+
 #logout {
 	margin-right: 10px;
 }
