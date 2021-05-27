@@ -49,14 +49,24 @@ module.exports = (app, myDatabase) => {
 		res.redirect('/chat') // If authenticated, redirect to chatroom
 	});
 
-	// GET request for logging out; Unauthenticates and redirects home
-	app.route('/logout').get((req, res) => {
-		req.logout();
-		res.redirect('/');
+	// GET request for Github OAuth
+	app.route("/auth/github").get(passport.authenticate('github'));
+
+	// GET request for callback after Github OAuth
+	app.route("/auth/github/callback").get(passport.authenticate('github', { failureRedirect: '/' }), (req, res) => {
+		req.session.user_id = req.user.id;
+		res.redirect('/chat')
 	});
 
 	// Rendering the chatroom page
 	app.route('/chat').get(ensureAuthenticated, (req, res) => {
 		res.render(process.cwd() + '/views/chat.pug')
 	});
+	
+	// GET request for logging out; Unauthenticates and redirects home
+	app.route('/logout').get((req, res) => {
+		req.logout();
+		res.redirect('/');
+	});
+
 }
