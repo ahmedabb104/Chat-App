@@ -14,7 +14,7 @@ module.exports = (app, myDatabase) => {
 			return next();
 		} 
 		res.redirect('/'); // if not, redirect back home
-	}
+	};
 
 	// Handling POST request from registration form
 	app.route('/register').post((req, res, next) => {
@@ -42,15 +42,21 @@ module.exports = (app, myDatabase) => {
 		}, 
 		  passport.authenticate('local', { failureRedirect: '/' }), function(req, res) {
 		  res.redirect('/chat') // If successful register, redirect to chatroom
-	})
+	});
 
 	// Handling POST request from local login form
 	app.route('/login').post(passport.authenticate('local', { failureRedirect: '/' }), (req, res, next) => {
 		res.redirect('/chat') // If authenticated, redirect to chatroom
-	})
+	});
+
+	// GET request for logging out; Unauthenticates and redirects home
+	app.route('/logout').get((req, res) => {
+		req.logout();
+		res.redirect('/');
+	});
 
 	// Rendering the chatroom page
 	app.route('/chat').get(ensureAuthenticated, (req, res) => {
 		res.render(process.cwd() + '/views/chat.pug')
-	})
+	});
 }

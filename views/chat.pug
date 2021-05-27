@@ -6,5 +6,44 @@ html
 		meta(http-equiv='X-UA-Compatible', content='IE=edge')
 		meta(name='viewport', content='width=device-width, initial-scale=1')
 		link(rel='stylesheet', href='/public/styles.css')
+		link(rel="preconnect" href="https://fonts.gstatic.com")
+		link(href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500&display=swap" rel="stylesheet")
+		script(src="https://kit.fontawesome.com/d50923ea55.js" crossorigin="anonymous")
 	body
-		h1 Nice
+		block content
+			script.
+				var showLogout = function (){
+					if (document.querySelector("div.showLogout").style.display == 'flex') {
+						document.querySelector("div.showLogout").style.display = 'none'
+					} else {
+						document.querySelector("div.showLogout").style.display = 'flex'
+					}
+				}
+				var closeLogout = function() {
+					document.querySelector("div.showLogout").style.display = 'none'
+				}
+
+		nav#chatnav-container
+			h1 Chat App
+			button(onclick='showLogout()')#logout-button Log out
+
+		div.showLogout
+			div.form-header
+				h3 Log out
+				i(class='fas fa-times' onclick='closeLogout()').close-form
+			p Are you sure you want to log out?
+			div#logout-buttons
+				a(href='/logout').button#logout Yes
+				button(onclick='closeLogout()') No
+
+		div#chat-center
+			p#online-users
+			div#chatbox
+				ul#messages
+				form(action='')
+					input#m(autocomplete='off')
+					button#sendmessage Send
+
+		script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js', integrity='sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=', crossorigin='anonymous')
+		<script src='/socket.io/socket.io.js'></script>
+		script(async, defer, src='/public/client.js')
