@@ -6,5 +6,6 @@
 - Node.js
 - Express
 - MongoDB Node driver
+- jQuery
 - Pug (Jade)
 - CSS
